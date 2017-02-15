@@ -4,7 +4,8 @@ let db = require('./db-interaction'),
    	templates = require('./dom-builder'),
    	movieTemplate = require('../templates/movie.hbs'),
    	user = require('./user'),
-   	firebase = require('./firebaseConfig');
+   	firebase = require('./firebaseConfig'),
+    storage = require('./localStorage.js');
 
 /*
 This function is used to save information from the movie card
