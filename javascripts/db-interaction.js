@@ -3,7 +3,8 @@
 
 let firebase = require('./firebaseConfig'),
         movieGetter = require('./movie-getter.js'),
-        movieAPI = movieGetter();
+        movieAPI = movieGetter(),
+        storage = require('./localStorage.js');
         // fb = firebase();
 /*
     apiKey: 'AIzaSyAjNt10LaBGKk5edTtotKiduJmaX4JT4zo',
@@ -24,6 +25,7 @@ function searchOMDB (movie) {
             data: { query: movie, append_to_response: "images", include_image_language: "en"}
         }).done(
             function (movieData) {
+            storage.setLocalAPI(movieData);
             resolve(movieData);
         }).fail(function (error){
             reject(error);
@@ -39,6 +41,7 @@ function getMovies (user) {
         $.ajax({
             url: `https://movie-history-team-team.firebaseio.com/movies.json?orderBy="uid"&equalTo="${user}"`
         }).done(function(movieData){
+            storage.setLocalFB(movieData);
             resolve(movieData);
         }).fail( function(error){
             reject(error);
@@ -47,7 +50,12 @@ function getMovies (user) {
 }
 
 function addMovie (movieFormObj) {
-    console.log('add movie', movieFormObj);
+
+  console.log('add movie', movieFormObj);
+  var duplicateCheck = storage.addLocalFB(movieFormObj);
+  if (duplicateCheck === true) {
+    return;
+  } else {
     return new Promise ( function (resolve, reject ) {
         $.ajax ( {
             url: `https://movie-history-team-team.firebaseio.com/movies.json`,
@@ -58,6 +66,7 @@ function addMovie (movieFormObj) {
             resolve();
         });
     });
+  }
 }
 
 

@@ -63,7 +63,7 @@ let formControl = (submitValue) => {
         resolve(keyWordValues.join(" "), yearValues[0]);
       }
     }
-  })
+  });
 };
 
 
