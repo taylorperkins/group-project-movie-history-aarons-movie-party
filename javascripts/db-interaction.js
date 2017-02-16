@@ -6,7 +6,6 @@ let firebase = require('./firebaseConfig'),
         movieAPI = movieGetter(),
         storage = require('./localStorage.js');
 
-
 // ****************************************
 // DB interaction using Firebase REST API
 // ****************************************

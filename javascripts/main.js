@@ -1,10 +1,10 @@
 'use strict';
 
-let db = require('./db-interaction.js'),
-   	templates = require('./dom-builder.js'),
-   	movieTemplate = require('./dom-builder.js'),
-   	user = require('./user.js'),
-   	firebase = require('./firebaseConfig.js'),
+let db = require('./db-interaction'),
+   	templates = require('./dom-builder'),
+   	movieTemplate = require('../templates/movie.hbs'),
+   	user = require('./user'),
+   	firebase = require('./firebaseConfig'),
     storage = require('./localStorage.js');
 
 /*
@@ -70,7 +70,7 @@ let formControl = (submitValue) => {
 
 $('#searchmovies').keyup(function (event) {
   if (event.which === 13) {
-    $('#movierow').empty();
+    $('.movies-list').empty();
     let movieSearchInput = $('#searchmovies').val();
     console.log(movieSearchInput);
     formControl(movieSearchInput).then(
@@ -97,7 +97,7 @@ $('#searchmovies').keyup(function (event) {
 
 
 
-$('#login-btn').click(function() {
+$('.login').click(function() {
   console.log('clicked login');
   user.logInGoogle()
   .then( 
@@ -117,7 +117,7 @@ $('#login-btn').click(function() {
 
 
 
-$('#logout-btn').click(function() {
+$('.logout').click(function() {
   console.log('clicked logout');
   user.logOut();
   console.log('user logged out');

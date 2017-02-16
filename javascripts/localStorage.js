@@ -13,7 +13,10 @@ function setLocalFB(objARR) {
 	}
 }
 
-// stores the api search data locally
+function addLocalFB(movieObject) {
+	localFB.push(movieObject);
+}
+
 function setLocalAPI(objARR) {
 	localAPI = objARR.results;
 }
@@ -39,7 +42,7 @@ function addLocalFB(movieObj) {
 function concatFBAPI() {
 	console.log("Sort localFB and localAPI here");
 
-	// start with API call array of results
+	// combine local firebase and api arrays
 	var comboArray = localAPI.concat(localFB);
 
 	// sort by title name
@@ -55,7 +58,7 @@ function concatFBAPI() {
 		return 0;
 	});
 
-	// if we find a duplicate and the duplicate has a uid do nothing
+	// if we find a duplicate and a duplicate that has a uid do nothing
 	// if we find a duplicate without a uid, remove it
 	for (var n = 0; n < comboArray.length; n++) {
 
@@ -70,7 +73,9 @@ function concatFBAPI() {
 			comboArray.splice(n - 1, 1);
 		}
 	}
+
 	return comboArray;
 }
 
+>>>>>>> d8197b3fb0a6d981bd235062da6beca09cd62919
 module.exports = {setLocalAPI, setLocalFB, addLocalFB, concatFBAPI};

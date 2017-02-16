@@ -8,7 +8,8 @@ let cardMovieTemplate = function(movie) {
             image: movie.poster_path ? movie.poster_path : movie.poster,
             title: movie.title,
             year: movie.release_date ? movie.release_date.slice(0, 4) : movie.year,
-            myRatings: movie.uid ? `${movie.ratings}` : `${Math.round(movie.popularity)}`
+            myRatings: movie.uid ? `${movie.ratings}` : "",
+            popularity: Math.round(movie.popularity)
         };
         let cardTemplate = `
     												<div class="col-sm-6 col-md-4" data-movieId="${cardItems.id}">
@@ -16,12 +17,13 @@ let cardMovieTemplate = function(movie) {
                                 <img src="https://image.tmdb.org/t/p/w500${cardItems.image}" alt="Movie image ${cardItems.title}" onerror="this.onerror=null;this.src='sorry.jpeg';">
                                 <div class="caption">
                                   <h3>${cardItems.title}</h3>
-                                  <p>${cardItems.year}</p>
-                                  <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                  <h3>${cardItems.year}</h3>
+                                  <h3>${cardItems.popularity}</h3>
+                                  <h3>${cardItems.myRatings}</h3>
                                 </div>
                               </div>
                             </div>`;
-        $('#movierow').append(cardTemplate);
+        $('.movies-list').append(cardTemplate);
         resolve(cardTemplate);
         reject();
     });
