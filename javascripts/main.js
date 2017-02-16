@@ -1,10 +1,11 @@
 'use strict';
 
-let db = require('./db-interaction.js'),
-   	templates = require('./dom-builder.js'),
-   	movieTemplate = require('./dom-builder.js'),
-   	user = require('./user.js'),
-   	firebase = require('./firebaseConfig.js');
+let db = require('./db-interaction'),
+   	templates = require('./dom-builder'),
+   	movieTemplate = require('../templates/movie.hbs'),
+   	user = require('./user'),
+   	firebase = require('./firebaseConfig'),
+    storage = require('./localStorage.js');
 
 /*
 This function is used to save information from the movie card
@@ -12,12 +13,12 @@ whenever it is selected. It will create an object and push it to be
 saved within FB.
 */
 function movieObjToFirebase(movieObj) {
-  // return new Promise((resolve) => {
   let movie = {
     title: movieObj.original_title,
     year: movieObj.release_date.slice(0, 4),
     overview: movieObj.overview,
     poster: movieObj.poster_path,
+    id: movieObj.id,
 
     uid: user.getUser()
   };
@@ -77,11 +78,15 @@ $('#searchmovies').keyup(function (event) {
       ).then( 
         (movieData) => {
           console.log("This is the movie-data", movieData);
-          // db.addMovie(movieObjToFirebase(movieData.results[0]));
-          // console.log(templates.cardMovieTemplate);
-          movieData.results.forEach(function(movie) {
+          var printMe = storage.concatFBAPI();
+          printMe.forEach(function(movie) {
             templates.cardMovieTemplate(movie);
           });
+          // db.addMovie(movieObjToFirebase(movieData.results[0]));
+          // console.log(templates.cardMovieTemplate);
+          // movieData.results.forEach(function(movie) {
+          //   // templates.cardMovieTemplate(movie);
+          // });
           // templates.cardMovieTemplate(movieData.results[0]);
         }
     );

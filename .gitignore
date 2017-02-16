@@ -1,2 +1,6 @@
 lib/node_modules
 .idea/
+dist/
+javascripts/fb-getter.js
+javascripts/movie-getter.js
+.DS_Store

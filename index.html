@@ -28,14 +28,14 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <div class="navbar-form navbar-left">
                         <div class="form-group">
-                            <input id="searchmovies" type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" id="searchmovies" placeholder="Search">
                         </div>
                         <button type="button" class="btn form-control-btn btn-default">Submit</button>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="login"><a href="#">Login</a></li>
+                        <li class="login"><a href="#" id="login-btn">Login</a></li>
                         <li class="register"><a href="#">Register</a></li>
-                        <li class="logout"><a href="#">Logout</a></li>
+                        <li class="logout"><a href="#" id="logout-btn">Logout</a></li>
                     </ul>
                 </div><!-- End of navbar-collapse -->
             </div><!-- End of container-fluid -->
@@ -52,7 +52,7 @@
     </div> <!-- End of filter-container -->
 
     <div class="cards-container">
-        <div class="row movies-list">
+        <div class="row movies-list" id="movierow">
             <div class="col-sm-6 col-md-4" data-movieId="${cardItems.movieId}">
                 <div class="thumbnail">
                     <img src="https://image.tmdb.org/t/p/w500/ec1m7YgBYb4os06OSNW3QBaNYqZ.jpg" alt="Movie image ${cardItems.title}">
