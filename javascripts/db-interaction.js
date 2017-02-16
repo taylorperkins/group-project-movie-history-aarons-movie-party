@@ -5,24 +5,26 @@ let firebase = require('./firebaseConfig'),
         movieGetter = require('./movie-getter.js'),
         movieAPI = movieGetter(),
         storage = require('./localStorage.js');
-        // fb = firebase();
-/*
-    apiKey: 'AIzaSyAjNt10LaBGKk5edTtotKiduJmaX4JT4zo',
-    authDomain: 'moviehistory-e4b18.firebaseapp.com',
-    databaseURL: 'https://moviehistory-e4b18.firebaseio.com'
- */
+
+
 // ****************************************
 // DB interaction using Firebase REST API
 // ****************************************
 
-function searchOMDB (movie) {
+function searchOMDB (movie, movieYear) {
     console.log('inside search');
     
     return new Promise ( function ( resolve, reject ) {
         $.ajax({
             url: movieAPI.MDBurl,
             type: 'GET',
-            data: { query: movie, append_to_response: "images", include_image_language: "en"}
+            data: { 
+              query: movie, 
+              append_to_response: "images", 
+              include_image_language: "en",
+              include_adult: "false",
+              year: movieYear
+            }
         }).done(
             function (movieData) {
             storage.setLocalAPI(movieData);

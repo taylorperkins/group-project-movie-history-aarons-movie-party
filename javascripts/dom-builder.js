@@ -4,16 +4,16 @@ let cardMovieTemplate = function(movie) {
     return new Promise(function(resolve, reject) {
 
         let cardItems = {
-        		movieId: movie.id,
-            image: movie.poster_path,
+        		id: movie.id,
+            image: movie.poster_path ? movie.poster_path : movie.poster,
             title: movie.title,
-            year: movie.release_date.slice(0, 4),
+            year: movie.release_date ? movie.release_date.slice(0, 4) : movie.year,
             myRatings: movie.uid ? `${movie.ratings}` : `${Math.round(movie.popularity)}`
         };
         let cardTemplate = `
-    												<div class="col-sm-6 col-md-4" data-movieId="${cardItems.movieId}">
+    												<div class="col-sm-6 col-md-4" data-movieId="${cardItems.id}">
                               <div class="thumbnail">
-                                <img src="https://image.tmdb.org/t/p/w500${cardItems.image}" alt="Movie image ${cardItems.title}">
+                                <img src="https://image.tmdb.org/t/p/w500${cardItems.image}" alt="Movie image ${cardItems.title}" onerror="this.onerror=null;this.src='sorry.jpeg';">
                                 <div class="caption">
                                   <h3>${cardItems.title}</h3>
                                   <p>${cardItems.year}</p>
