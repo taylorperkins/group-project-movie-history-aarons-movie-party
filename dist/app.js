@@ -140,8 +140,8 @@ let cardMovieTemplate = function(movie, counter) {
         trackedDisplay = 'Click to track!';
     }
     //card-template
-    let cardTemplate = `<div class="col-sm-6 col-md-4" data-movieId="${cardItems.movieId}">
-                          <div class="thumbnail movie-${cardItems.trackedClass}ed">
+    let cardTemplate = `<div class="col-sm-6 col-md-4" >
+                          <div class="thumbnail movie-${cardItems.trackedClass}ed" data-movieId="${cardItems.movieId}">
                             <img src="${cardItems.image}" alt="Movie image ${cardItems.title}">
                             <div class="caption">
                               <h3>${cardItems.title}</h3>
@@ -652,6 +652,8 @@ function makeEventListeners() {
           if (removeEvent === true) {
             db.deleteMovie(Number(deletedObj.index));
             removeEvent = false;
+            addEvent = false;
+            ratedEvent = false;
           }
           if (addEvent === true && ratedEvent !== true) {
             db.addMovie(addedObj);
@@ -697,21 +699,26 @@ function makeEventListeners() {
       }
       // removing from tracked
       $(".card-clicked").find(".untrack").click(function () {
+        if (addEvent === true) {
+          addEvent = false;
+        }
         console.log("You clicked on untrack");
         deletedObj = updatedFBObj;
         removeEvent = true;
         console.log("removeEvent ", removeEvent);
         $(".card-clicked").removeClass("movie-tracked");
         $(".card-clicked").removeClass("movie-rated");
-        $(".card-clicked").find(".group-star").removeClass("hidden");
         $(".card-clicked").find(".group-star").addClass("hidden");
-        $(".card-clicked").find(".untrack").removeClass("untrack");
         $(".card-clicked").find(".untrack").addClass("track");
+        $(".card-clicked").find(".untrack").removeClass("untrack");
         $(".card-clicked").find(".track").html("click to track!");
       });
 
       // adding to tracked
       $(".card-clicked").find(".track").click(function () {
+        if (removeEvent === true) {
+          removeEvent = false;
+        }
         console.log("You clicked on track");
         updatedAPIObj.uid = user.getUser();
         updatedAPIObj.watched = false;

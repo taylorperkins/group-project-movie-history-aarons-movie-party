@@ -33,8 +33,8 @@ let cardMovieTemplate = function(movie, counter) {
         trackedDisplay = 'Click to track!';
     }
     //card-template
-    let cardTemplate = `<div class="col-sm-6 col-md-4" data-movieId="${cardItems.movieId}">
-                          <div class="thumbnail movie-${cardItems.trackedClass}ed">
+    let cardTemplate = `<div class="col-sm-6 col-md-4" >
+                          <div class="thumbnail movie-${cardItems.trackedClass}ed" data-movieId="${cardItems.movieId}">
                             <img src="${cardItems.image}" alt="Movie image ${cardItems.title}">
                             <div class="caption">
                               <h3>${cardItems.title}</h3>

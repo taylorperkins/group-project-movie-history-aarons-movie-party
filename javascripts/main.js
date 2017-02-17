@@ -298,6 +298,8 @@ function makeEventListeners() {
           if (removeEvent === true) {
             db.deleteMovie(Number(deletedObj.index));
             removeEvent = false;
+            addEvent = false;
+            ratedEvent = false;
           }
           if (addEvent === true && ratedEvent !== true) {
             db.addMovie(addedObj);
@@ -343,21 +345,26 @@ function makeEventListeners() {
       }
       // removing from tracked
       $(".card-clicked").find(".untrack").click(function () {
+        if (addEvent === true) {
+          addEvent = false;
+        }
         console.log("You clicked on untrack");
         deletedObj = updatedFBObj;
         removeEvent = true;
         console.log("removeEvent ", removeEvent);
         $(".card-clicked").removeClass("movie-tracked");
         $(".card-clicked").removeClass("movie-rated");
-        $(".card-clicked").find(".group-star").removeClass("hidden");
         $(".card-clicked").find(".group-star").addClass("hidden");
-        $(".card-clicked").find(".untrack").removeClass("untrack");
         $(".card-clicked").find(".untrack").addClass("track");
+        $(".card-clicked").find(".untrack").removeClass("untrack");
         $(".card-clicked").find(".track").html("click to track!");
       });
 
       // adding to tracked
       $(".card-clicked").find(".track").click(function () {
+        if (removeEvent === true) {
+          removeEvent = false;
+        }
         console.log("You clicked on track");
         updatedAPIObj.uid = user.getUser();
         updatedAPIObj.watched = false;
