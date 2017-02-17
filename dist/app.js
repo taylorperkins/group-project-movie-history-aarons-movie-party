@@ -119,6 +119,7 @@ let cardMovieTemplate = function(movie, counter) {
     if (counter % 3 === 0) {
         createWrapper();
     }
+
     //setting up structure for apending items to DOM
     let cardItems = {
         movieId: movie.id,
@@ -127,20 +128,20 @@ let cardMovieTemplate = function(movie, counter) {
         year: movie.uid ? movie.year : movie.release_date.slice(0, 4),
         myRatings: movie.ratings ? movie.ratings : 'You have not watched the movie to rate!',
         popularity: Math.round(movie.popularity),
-        tracked: movie.uid ? 'track' : 'untrack'
-    };
+        tracked: movie.uid ? 'untrack' : 'track',
+        trackedClass: movie.uid ? 'track' : 'untrack',
+        hideStars: movie.uid ? '' : 'hidden'
+        };
 
     let trackedDisplay = '';
-    if (movie.rating > 0) {
+    if (movie.rating > 0 || movie.uid) {
         trackedDisplay = 'Click to untrack!';
-    } else if (movie.uid){
-        trackedDisplay = 'Have you watched the movie?? Choose a rating!';
     } else {
         trackedDisplay = 'Click to track!';
     }
     //card-template
     let cardTemplate = `<div class="col-sm-6 col-md-4" data-movieId="${cardItems.movieId}">
-                          <div class="thumbnail movie-${cardItems.tracked}ed">
+                          <div class="thumbnail movie-${cardItems.trackedClass}ed">
                             <img src="${cardItems.image}" alt="Movie image ${cardItems.title}">
                             <div class="caption">
                               <h3>${cardItems.title}</h3>
@@ -150,7 +151,7 @@ let cardMovieTemplate = function(movie, counter) {
                             </div>
                             <hr>
                             <div class="container ratings">
-                                <div class="group-star">
+                                <div class="group-star ${cardItems.hideStars}">
                                     <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="1"></span>
                                     <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="2"></span>
                                     <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="3"></span>
@@ -163,7 +164,7 @@ let cardMovieTemplate = function(movie, counter) {
                                     <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="10"></span>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" class="${cardItems.tracked}">${trackedDisplay}</label>
+                                    <button type="button" class="${cardItems.tracked}">${trackedDisplay}</button>
                                 </div>
                             </div>
                           </div>
@@ -172,11 +173,14 @@ let cardMovieTemplate = function(movie, counter) {
 
     if (movie.rating) {
         let myRating = parseInt(movie.rating);
-        console.log($('.thumbnail:last .glyiphicon:lt(myRating)'));
-        // .removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+        console.log("should be stars: ", $('.thumbnail:last span:lt(4)'));
+        $('.thumbnail:last span').each(function(index) {
+            console.log($(this).attr("data-star"));
+            if ($(this).attr("data-star") <= myRating) {
+                $(this).removeClass("glyphicon-star-empty").addClass("glyphicon-star");
+            }
+        });
     }
-
-    let lastThumbnail = $('.thumbnail:last .group-star');
 };
 
 module.exports = {cardMovieTemplate};
@@ -699,6 +703,11 @@ function makeEventListeners() {
         console.log("removeEvent ", removeEvent);
         $(".card-clicked").removeClass("movie-tracked");
         $(".card-clicked").removeClass("movie-rated");
+        $(".card-clicked").find(".group-star").removeClass("hidden");
+        $(".card-clicked").find(".group-star").addClass("hidden");
+        $(".card-clicked").find(".untrack").removeClass("untrack");
+        $(".card-clicked").find(".untrack").addClass("track");
+        $(".card-clicked").find(".track").html("click to track!");
       });
 
       // adding to tracked
@@ -712,6 +721,10 @@ function makeEventListeners() {
         addEvent = true;
         console.log("addEvent ", addEvent);
         $(".card-clicked").addClass("movie-tracked");
+        $(".card-clicked").find(".group-star").removeClass("hidden");
+        $(".card-clicked").find(".track").addClass("untrack");
+        $(".card-clicked").find(".track").removeClass("track");
+        $(".card-clicked").find(".track").html("click to untrack!");
       });
 
       // giving a rating
