@@ -20,18 +20,20 @@ let cardMovieTemplate = function(movie, counter) {
         year: movie.uid ? movie.year : movie.release_date.slice(0, 4),
         myRatings: movie.ratings ? movie.ratings : 'You have not watched the movie to rate!',
         popularity: Math.round(movie.popularity),
-        tracked: movie.uid ? 'movie-tracked' : ''
+        tracked: movie.uid ? 'track' : 'untrack'
     };
 
     let trackedDisplay = '';
-    if (movie.uid) {
-        trackedDisplay = 'Untrack this movie';
+    if (movie.rating > 0) {
+        trackedDisplay = 'Click to untrack!';
+    } else if (movie.uid){
+        trackedDisplay = 'Have you watched the movie?? Choose a rating!';
     } else {
-        trackedDisplay = 'Have you watched this movie?';
+        trackedDisplay = 'Click to track!';
     }
     //card-template
     let cardTemplate = `<div class="col-sm-6 col-md-4" data-movieId="${cardItems.movieId}">
-                          <div class="thumbnail ${cardItems.tracked}">
+                          <div class="thumbnail movie-${cardItems.tracked}ed">
                             <img src="${cardItems.image}" alt="Movie image ${cardItems.title}">
                             <div class="caption">
                               <h3>${cardItems.title}</h3>
@@ -40,24 +42,34 @@ let cardMovieTemplate = function(movie, counter) {
                               <h3>${cardItems.myRatings}</h3>
                             </div>
                             <hr>
-                            <div class="group-star">
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="1"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="2"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="3"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="4"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="5"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="6"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="7"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="8"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="9"></span>
-                                <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="10"></span>
-                            </div>
-                            <div class="checkbox">
-                                <label><input type="checkbox" class="untrack">${trackedDisplay}</label>
+                            <div class="container ratings">
+                                <div class="group-star">
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="1"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="2"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="3"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="4"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="5"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="6"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="7"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="8"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="9"></span>
+                                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true" data-star="10"></span>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" class="${cardItems.tracked}">${trackedDisplay}</label>
+                                </div>
                             </div>
                           </div>
                         </div>`;
     $('.movies-list .row').last().append(cardTemplate);
+
+    if (movie.rating) {
+        let myRating = parseInt(movie.rating);
+        console.log($('.thumbnail:last .glyiphicon:lt(myRating)'));
+        // .removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+    }
+
+    let lastThumbnail = $('.thumbnail:last .group-star');
 };
 
 module.exports = {cardMovieTemplate};

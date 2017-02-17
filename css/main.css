@@ -1,3 +1,10 @@
+
+h1, h2, h3, h4, h5, h6, li, ul, a, p {
+	padding: 0;
+	margin: 0;
+}
+
+
 .my-container, .filter-container {
     margin: 1em auto;
 }
@@ -19,6 +26,44 @@
     background-color: lightgray;
     border: 1px solid darkgray;
 }
+
+.thumbnail {
+	height: 947.875px;
+	position: relative;
+}
+
+.thumbnail > img {
+	position: relative;
+	height: 525.594px;
+}
+
+.ratings {
+	position: absolute;
+	bottom:0;
+	height: 80px;
+}
+
+.hidden {
+ display: none;
+}
+
+.login-message-display {
+	margin-top: 200px;
+}
+
+.login-message-col {
+	background-color: lightgrey;
+	padding: 1em;
+}
+
+.login-message-col > h1 {
+	margin-bottom: 20px;
+}
+
+.login-message-col > h4{
+	margin-bottom: 20px;
+}
+
 /*nav {*/
 /*margin-top: 30px;*/
 /*border: 1px solid grey;*/

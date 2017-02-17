@@ -122,7 +122,8 @@ $('.form-control-btn').click(function(event) {
 This function performs login tasks. Sign in using Google, makes a call to Firebase
 to store all movies from firebase locally
 */
-$('.login').click(function() {
+
+let loginFunction = (loginMessage) => {
   console.log('clicked login');
   //sign in using Google
   user.logInGoogle()
@@ -137,8 +138,25 @@ $('.login').click(function() {
     (movieData) => {
       storage.setLocalFB(movieData);
       let myMovies = storage.getLocalFB();
-      console.log("These are my movies ", myMovies);}
-    );
+      console.log("These are my movies ", myMovies);
+      if (loginMessage) {
+        $('.login-message-display').addClass('hidden');
+        $('.my-container').removeClass('hidden');
+      }
+    }
+  );
+};
+
+$('.login').click((event) => loginFunction());
+$('.register').click((event) => loginFunction());
+
+$('.login-message-display').click(function(event) {
+  let target = event.target;
+  if ($(event.target).hasClass('message-login')) {
+    loginFunction(event.target);
+  } else if ($(event.target).hasClass('message-register')) {
+    loginFunction(event.target);
+  }
 });
 
 
@@ -148,6 +166,8 @@ Basic logout functions
 $('.logout').click(function() {
   console.log('clicked logout');
   user.logOut();
+  $('.my-container').addClass('hidden');
+  $('.login-message-display').removeClass('hidden');
   console.log('user logged out');
 });
 
