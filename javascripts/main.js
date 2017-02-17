@@ -349,6 +349,11 @@ function makeEventListeners() {
         console.log("removeEvent ", removeEvent);
         $(".card-clicked").removeClass("movie-tracked");
         $(".card-clicked").removeClass("movie-rated");
+        $(".card-clicked").find(".group-star").removeClass("hidden");
+        $(".card-clicked").find(".group-star").addClass("hidden");
+        $(".card-clicked").find(".untrack").removeClass("untrack");
+        $(".card-clicked").find(".untrack").addClass("track");
+        $(".card-clicked").find(".track").html("click to track!");
       });
 
       // adding to tracked
@@ -362,6 +367,10 @@ function makeEventListeners() {
         addEvent = true;
         console.log("addEvent ", addEvent);
         $(".card-clicked").addClass("movie-tracked");
+        $(".card-clicked").find(".group-star").removeClass("hidden");
+        $(".card-clicked").find(".track").addClass("untrack");
+        $(".card-clicked").find(".track").removeClass("track");
+        $(".card-clicked").find(".track").html("click to untrack!");
       });
 
       // giving a rating
