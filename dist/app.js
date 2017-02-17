@@ -172,8 +172,13 @@ let cardMovieTemplate = function(movie, counter) {
 
     if (movie.rating) {
         let myRating = parseInt(movie.rating);
-        console.log($('.thumbnail:last .glyiphicon:lt(myRating)'));
-        // .removeClass('glyphicon-star-empty').addClass('glyphicon-star');
+        console.log("should be stars: ", $('.thumbnail:last span:lt(4)'));
+        $('.thumbnail:last span').each(function(index) {
+            console.log($(this).attr("data-star"));
+            if ($(this).attr("data-star") <= myRating) {
+                $(this).removeClass("glyphicon-star-empty").addClass("glyphicon-star");
+            }
+        });
     }
 
     let lastThumbnail = $('.thumbnail:last .group-star');
